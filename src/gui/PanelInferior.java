@@ -74,7 +74,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     }
     public JLabel crearInptMsg() {
         this.msgInpt.setSize(this.ancho/2, 30);
-        this.msgInpt.setLocation(10, this.inptNum.getY()-10);
+        this.msgInpt.setLocation(10, this.getPanelLista().getHeight()+20);
         this.msgInpt.setForeground(fontColor);
         return this.msgInpt;
     }

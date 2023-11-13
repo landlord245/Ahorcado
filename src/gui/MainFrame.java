@@ -26,9 +26,9 @@ public class MainFrame extends JFrame implements ActionListener {
          * DE LA SEGUNDA PARTE
          */
 
-//        this.menuInicio.setVisible(false);
-//        this.panelInferior.setVisible(true);
-//        this.panelSuperior.setVisible(true);
+        this.menuInicio.setVisible(false);
+        this.panelInferior.setVisible(true);
+        this.panelSuperior.setVisible(true);
 
         /**
          * END
