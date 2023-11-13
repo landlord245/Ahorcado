@@ -12,6 +12,7 @@ public class MenuInicio extends JPanel implements ActionListener {
     private Color bgColor = new Color(1, 22, 39);
     private Color elementBGColor = new Color(231, 29, 54);
     private Color color4 = new Color(250, 112, 112);
+    private Color colorYellow = new Color(255, 159, 28);
     private int ancho;
     private int alto;
     private JRadioButton[] bDificultad = new JRadioButton[4];
@@ -32,11 +33,12 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.setSize(ancho, alto);
         this.setBackground(this.bgColor);
 
+        this.setbDificultad(this.crearBotonesDificultad());
 
         this.add(crearTituloLabel());
         this.add(crearMsgLabel());
         for (int i = 0; i < this.getbDificultad().length ; i++)
-            this.add(crearBotonesDificultad()[i]);
+            this.add(getbDificultad()[i]);
         this.add(crearBotonJugar());
         this.bDificultad[1].addActionListener(this);
     }
@@ -66,21 +68,25 @@ public class MenuInicio extends JPanel implements ActionListener {
         return this.bJugar;
     }
     public JLabel crearMsgLabel() {
-        int bAncho = this.titulo.getHeight()+50;
-        this.msgDificultad.setSize(150, bAncho-(this.titulo.getHeight()+50));
+        int tamAltura = 0;
+        for (int i = 0; i < this.getbDificultad().length; i++)
+            tamAltura += this.getbDificultad()[i].getHeight()+10;
+        System.out.println(tamAltura);
+        this.msgDificultad.setSize(150, tamAltura);
         this.msgDificultad.setLocation(10, this.titulo.getHeight()+50);
         this.msgDificultad.setFont(getFont().deriveFont(22.0f));
-        this.msgDificultad.setBackground(elementBGColor);
-        this.msgDificultad.setForeground(fontColor);
+        this.msgDificultad.setBackground(this.getColorYellow());
+        this.msgDificultad.setForeground(this.getBgColor());
         this.msgDificultad.setOpaque(true);
         this.msgDificultad.setVisible(false);
         return msgDificultad;
     }
     public JRadioButton[] crearBotonesDificultad() {
-        int bAncho = this.titulo.getHeight()+50;
+        int bAncho = this.titulo.getHeight();
+        bAncho += this.titulo.getY()+100;
         for (int i = 0; i < this.getbDificultad().length; i++){
             this.bDificultad[i] = new JRadioButton();
-            this.bDificultad[i].setName(""+i);
+            this.bDificultad[i].setName(String.valueOf(i));
             this.buttonGroup.add(this.bDificultad[i]);
             this.bDificultad[i].setFont(getFont().deriveFont(16.0f));
             this.bDificultad[i].setSize(100, 30);
@@ -122,6 +128,15 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.titulo.setOpaque(true);
         return this.titulo;
     }
+
+    public Color getColorYellow() {
+        return colorYellow;
+    }
+
+    public void setColorYellow(Color colorYellow) {
+        this.colorYellow = colorYellow;
+    }
+
     public Color getFontColor() {
         return fontColor;
     }
@@ -219,22 +234,21 @@ public class MenuInicio extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < this.getbDificultad().length; i++) {
             if (this.getbDificultad()[i].isSelected()){
-                System.out.println(i);
-                switch (this.getbDificultad()[i].getName()){
-                    case "0":
-                        this.msgDificultad.setText("<html><hr/> No vaya a ser que vayan a herir te los sentimientos. <hr/></html>");
+                switch (Integer.valueOf(this.getbDificultad()[i].getName())){
+                    case 0:
+                        this.msgDificultad.setText("<html><hr/><p align=\"center\"> No vaya a ser que vayan a herir te los sentimientos. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
                         break;
-                    case "1":
-                        this.msgDificultad.setText("<html><hr/> No te olvides de los pañales... <hr/></html>");
+                    case 1:
+                        this.msgDificultad.setText("<html><hr/><p align=\"center\"> No te olvides de los pañales... </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
                         break;
-                    case "2":
-                        this.msgDificultad.setText("<html><hr/> Y aun se creera valiente. <hr/></html>");
+                    case 2:
+                        this.msgDificultad.setText("<html><hr/><p align=\"center\"> Y aun se creera valiente. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
                         break;
-                    case "3":
-                        this.msgDificultad.setText("<html><hr/> Enseñanos de que madera estas echo. <hr/></html>");
+                    case 3:
+                        this.msgDificultad.setText("<html><hr/><p align=\"center\"> Enseñanos de que madera estas echo. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
                         break;
                     default:
