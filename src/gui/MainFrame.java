@@ -92,6 +92,5 @@ public class MainFrame extends JFrame implements ActionListener {
             }
         }
         this.setTitle("Ahorcado: "+dificultad);
-        System.out.println(this.panelInferior.getDificultad());
     }
 }

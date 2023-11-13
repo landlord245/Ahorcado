@@ -32,61 +32,19 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.setSize(ancho, alto);
         this.setBackground(this.bgColor);
 
-        this.titulo.setSize(400, 50);
-        this.titulo.setLocation(centrarElemento(this.titulo), 0);
-        this.titulo.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.titulo.setFont(getFont().deriveFont(32.0f));
-        this.titulo.setForeground(this.fontColor);
-        this.titulo.setBackground(this.elementBGColor);
-        this.titulo.setOpaque(true);
-        this.add(this.titulo);
 
-        int bAncho = this.titulo.getHeight()+50;
-        for (int i = 0; i < this.bDificultad.length; i++){
-            this.bDificultad[i] = new JRadioButton();
-            this.bDificultad[i].setName(""+i);
-            this.buttonGroup.add(this.bDificultad[i]);
-            this.bDificultad[i].setFont(getFont().deriveFont(16.0f));
-            this.bDificultad[i].setSize(100, 30);
-            this.bDificultad[i].setLocation(centrarElemento(bDificultad[i]),bAncho);
-            bAncho += this.bDificultad[i].getHeight()+10;
-            this.bDificultad[i].setBackground(this.elementBGColor);
-            this.bDificultad[i].setForeground(this.fontColor);
-
-            int num = i;
-            this.bDificultad[i].addMouseListener(new MouseAdapter() {
-
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    bDificultad[num].setBackground(fontColor);
-                    bDificultad[num].setForeground(elementBGColor);
-
-                }
-
-                public void mouseExited(MouseEvent e) {
-                    super.mouseEntered(e);
-                    bDificultad[num].setBackground(elementBGColor);
-                    bDificultad[num].setForeground(fontColor);
-
-                }
-            });
-
-            this.bDificultad[i].addActionListener(this);
-
-            this.add(this.bDificultad[i]);
-        }
-
-        this.msgDificultad.setSize(150, bAncho-(this.titulo.getHeight()+50));
-        this.msgDificultad.setLocation(10, this.titulo.getHeight()+50);
-        this.msgDificultad.setFont(getFont().deriveFont(22.0f));
-        this.msgDificultad.setBackground(elementBGColor);
-        this.msgDificultad.setForeground(fontColor);
-        this.msgDificultad.setOpaque(true);
-        this.msgDificultad.setVisible(false);
-        this.add(this.msgDificultad);
-
+        this.add(crearTituloLabel());
+        this.add(crearMsgLabel());
+        for (int i = 0; i < this.getbDificultad().length ; i++)
+            this.add(crearBotonesDificultad()[i]);
+        this.add(crearBotonJugar());
+        this.bDificultad[1].addActionListener(this);
+    }
+    public JButton crearBotonJugar() {
+        int posicionBotonArriba = this.getbDificultad()[3].getY();
+        posicionBotonArriba += this.getbDificultad()[3].getHeight();
         this.bJugar.setSize(200, 50);
-        this.bJugar.setLocation(centrarElemento(this.bJugar),bAncho+50);
+        this.bJugar.setLocation(centrarElemento(this.bJugar),posicionBotonArriba+50);
         this.bJugar.setBackground(this.elementBGColor);
         this.bJugar.setForeground(this.fontColor);
         this.bJugar.addMouseListener(new MouseAdapter() {
@@ -105,15 +63,65 @@ public class MenuInicio extends JPanel implements ActionListener {
                 bJugar.setForeground(fontColor);
             }
         });
-        this.add(this.bJugar);
+        return this.bJugar;
+    }
+    public JLabel crearMsgLabel() {
+        int bAncho = this.titulo.getHeight()+50;
+        this.msgDificultad.setSize(150, bAncho-(this.titulo.getHeight()+50));
+        this.msgDificultad.setLocation(10, this.titulo.getHeight()+50);
+        this.msgDificultad.setFont(getFont().deriveFont(22.0f));
+        this.msgDificultad.setBackground(elementBGColor);
+        this.msgDificultad.setForeground(fontColor);
+        this.msgDificultad.setOpaque(true);
+        this.msgDificultad.setVisible(false);
+        return msgDificultad;
+    }
+    public JRadioButton[] crearBotonesDificultad() {
+        int bAncho = this.titulo.getHeight()+50;
+        for (int i = 0; i < this.getbDificultad().length; i++){
+            this.bDificultad[i] = new JRadioButton();
+            this.bDificultad[i].setName(""+i);
+            this.buttonGroup.add(this.bDificultad[i]);
+            this.bDificultad[i].setFont(getFont().deriveFont(16.0f));
+            this.bDificultad[i].setSize(100, 30);
+            this.bDificultad[i].setLocation(centrarElemento(bDificultad[i]),bAncho);
+            bAncho += this.bDificultad[i].getHeight()+10;
+            this.bDificultad[i].setBackground(this.elementBGColor);
+            this.bDificultad[i].setForeground(this.fontColor);
 
+            int num = i;
+            this.bDificultad[i].addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    bDificultad[num].setBackground(fontColor);
+                    bDificultad[num].setForeground(elementBGColor);
+
+                }
+                public void mouseExited(MouseEvent e) {
+                    super.mouseEntered(e);
+                    bDificultad[num].setBackground(elementBGColor);
+                    bDificultad[num].setForeground(fontColor);
+
+                }
+            });
+            this.bDificultad[i].addActionListener(this);
+        }
         this.bDificultad[0].setText("Muy Facil.");
         this.bDificultad[1].setText("Facil.");
         this.bDificultad[2].setText("Normal.");
         this.bDificultad[3].setText("Dificil.");
-
+        return this.bDificultad;
     }
-
+    public JLabel crearTituloLabel() {
+        this.titulo.setSize(400, 50);
+        this.titulo.setLocation(centrarElemento(this.titulo), 0);
+        this.titulo.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.titulo.setFont(getFont().deriveFont(32.0f));
+        this.titulo.setForeground(this.fontColor);
+        this.titulo.setBackground(this.elementBGColor);
+        this.titulo.setOpaque(true);
+        return this.titulo;
+    }
     public Color getFontColor() {
         return fontColor;
     }
@@ -209,9 +217,10 @@ public class MenuInicio extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < this.bDificultad.length; i++) {
-            if (this.bDificultad[i].isSelected()){
-                switch (this.bDificultad[i].getName()){
+        for (int i = 0; i < this.getbDificultad().length; i++) {
+            if (this.getbDificultad()[i].isSelected()){
+                System.out.println(i);
+                switch (this.getbDificultad()[i].getName()){
                     case "0":
                         this.msgDificultad.setText("<html><hr/> No vaya a ser que vayan a herir te los sentimientos. <hr/></html>");
                         this.msgDificultad.setVisible(true);

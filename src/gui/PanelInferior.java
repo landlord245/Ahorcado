@@ -11,9 +11,10 @@ public class PanelInferior extends JPanel implements ActionListener {
     private Color fontColor = new Color(253, 255, 252);
     private Color bgColor = new Color(1, 22, 39);
     private Color elementBGColor = new Color(231, 29, 54);
-    private Color color4 = new Color(250, 112, 112);
+    private Color colorLightPink = new Color(250, 112, 112);
     private Color acertado = new Color(129, 170, 36);
-    private JPanel frameLista = new JPanel();
+    private Color colorYellow = new Color(255, 159, 28);
+    private JPanel panelLista = new JPanel();
     private JLabel[] numProbados = new JLabel[5];
     private JLabel msgInpt = new JLabel("<html>Inserte el numero a adivinar aqua:</html>");
     private JTextField inptNum = new JTextField();
@@ -30,33 +31,13 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.setBackground(bgColor);
         this.setLayout(null);
 
-        this.frameLista.setBackground(color4);
-        this.frameLista.setSize(this.ancho/2, 30);
-        this.frameLista.setLocation(10, 10);
-
-        this.msgInpt.setSize(this.ancho/2, 30);
-        this.msgInpt.setLocation(10, this.frameLista.getHeight()+20);
-        this.msgInpt.setForeground(fontColor);
-
-        this.inptNum.setSize(this.ancho/2, this.alto/2);
-        this.inptNum.setLocation(10, this.frameLista.getHeight()+50);
-        this.inptNum.setOpaque(true);
-        this.inptNum.setBackground(color4);
-        this.inptNum.setForeground(bgColor);
-        this.inptNum.setBorder(null);
-        this.inptNum.setHorizontalAlignment(SwingConstants.CENTER);
-        this.inptNum.setFont(getFont().deriveFont(32.0f));
-
-        int sumarElementoAltura = 30+30+this.alto/2;
-        this.msgHint.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.msgHint.setSize(this.ancho/2-50, sumarElementoAltura-75);
-        this.msgHint.setLocation(this.ancho/2+20, 10);
-        this.msgHint.setBackground(elementBGColor);
-        this.msgHint.setForeground(fontColor);
-        this.msgHint.setOpaque(true);
-        this.msgHint.setVisible(false);
-//        this.msgHint.setText("<html><p align=\"center\">Este es un texto de prueba, yo soy Gurjant el desarrollador <p><html>");
-
+        this.add(crearPanelLista());
+        this.add(crearInptMsg());
+        this.add(crearInputNum());
+        this.add(crearHintMsg());
+        this.add(crearBotonProbar());
+    }
+    public JButton crearBotonProbar() {
         this.bProbar.setSize(this.ancho/2-50, 75);
         this.bProbar.setLocation(this.ancho/2+20, this.msgHint.getHeight()+20);
         this.bProbar.setBorder(null);
@@ -77,12 +58,42 @@ public class PanelInferior extends JPanel implements ActionListener {
             }
         });
         this.bProbar.addActionListener(this);
-
-        this.add(this.msgHint);
-        this.add(this.bProbar);
-        this.add(this.msgInpt);
-        this.add(this.inptNum);
-        this.add(this.frameLista);
+        return this.bProbar;
+    }
+    public JLabel crearHintMsg(){
+        int sumarElementoAltura = 30+30+this.alto/2;
+        this.msgHint.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.msgHint.setSize(this.ancho/2-50, sumarElementoAltura-75);
+        this.msgHint.setLocation(this.ancho/2+20, 10);
+        this.msgHint.setBackground(getColorYellow());
+        this.msgHint.setForeground(getFontColor());
+        this.msgHint.setOpaque(true);
+        this.msgHint.setVisible(false);
+        this.msgHint.setText("<html><p align=\"center\">Este es un texto de prueba, yo soy Gurjant el desarrollador <p><html>");
+        return this.msgHint;
+    }
+    public JLabel crearInptMsg() {
+        this.msgInpt.setSize(this.ancho/2, 30);
+        this.msgInpt.setLocation(10, this.inptNum.getY()-10);
+        this.msgInpt.setForeground(fontColor);
+        return this.msgInpt;
+    }
+    public JTextField crearInputNum() {
+        this.inptNum.setSize(this.ancho/2, this.alto/2);
+        this.inptNum.setLocation(10, this.msgInpt.getHeight()+50);
+        this.inptNum.setOpaque(true);
+        this.inptNum.setBackground(getElementBGColor());
+        this.inptNum.setForeground(getFontColor());
+        this.inptNum.setBorder(null);
+        this.inptNum.setHorizontalAlignment(SwingConstants.CENTER);
+        this.inptNum.setFont(getFont().deriveFont(32.0f));
+        return this.inptNum;
+    }
+    public JPanel crearPanelLista() {
+        this.panelLista.setBackground(colorLightPink);
+        this.panelLista.setSize(this.ancho/2, 30);
+        this.panelLista.setLocation(10, 10);
+        return  this.panelLista;
     }
 
     @Override
@@ -120,11 +131,11 @@ public class PanelInferior extends JPanel implements ActionListener {
     }
 
     public Color getColor4() {
-        return color4;
+        return colorLightPink;
     }
 
     public void setColor4(Color color4) {
-        this.color4 = color4;
+        this.colorLightPink = color4;
     }
 
     public Color getAcertado() {
@@ -135,12 +146,12 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.acertado = acertado;
     }
 
-    public JPanel getFrameLista() {
-        return frameLista;
+    public JPanel getPanelLista() {
+        return panelLista;
     }
 
-    public void setFrameLista(JPanel frameLista) {
-        this.frameLista = frameLista;
+    public void setPanelLista(JPanel panelLista) {
+        this.panelLista = panelLista;
     }
 
     public JLabel[] getNumProbados() {
@@ -205,5 +216,21 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     public void setDificultad(String dificultad) {
         this.dificultad = dificultad;
+    }
+
+    public Color getColorLightPink() {
+        return colorLightPink;
+    }
+
+    public void setColorLightPink(Color colorLightPink) {
+        this.colorLightPink = colorLightPink;
+    }
+
+    public Color getColorYellow() {
+        return colorYellow;
+    }
+
+    public void setColorYellow(Color colorYellow) {
+        this.colorYellow = colorYellow;
     }
 }
