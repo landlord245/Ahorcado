@@ -140,7 +140,7 @@ public class PanelInferior extends JPanel implements ActionListener {
                     anyadirNumeroLista(numeroRecibido);
                     ayuda = this.getLogicaJuego().hint(numeroRecibido);
                     this.getMsgHint().setText("<html><p align=\"center\">"+ayuda+"<p></html>");
-                    System.out.println(getIntentos());
+                    System.out.println(this.getLogicaJuego().getNumeroAleatorio());
                 }else {
                     this.getInptNum().setEnabled(false);
                     this.getbProbar().setEnabled(false);

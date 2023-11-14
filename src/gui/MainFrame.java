@@ -116,11 +116,16 @@ public class MainFrame extends JFrame implements ActionListener {
             this.setTitle("Ahorcado: "+dificultad);
         } else if (abstractButton.getName().equalsIgnoreCase(this.getPanelInferior().getbProbar().getName())) {
             int fase = this.getPanelInferior().getIntentos();
+            System.out.println(fase);
             if (fase != -1)
                 this.getPanelSuperior().cambioDeFase(fase);
             else {
+                System.out.println("In");
                 this.ventanaGanadora = new VentanaGanadora(500,500);
-
+                this.ventanaGanadora.setSize(this.getSize());
+                this.ventanaGanadora.setVisible(true);
+                this.ventanaGanadora.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                this.ventanaGanadora.setBackground(this.menuInicio.getBackground());
             }
         }
     }
