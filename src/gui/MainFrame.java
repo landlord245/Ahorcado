@@ -1,5 +1,7 @@
 package gui;
 
+import logica.LogicaJuego;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +10,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private MenuInicio menuInicio = new MenuInicio(500, 500);
     private PanelSuperior panelSuperior = new PanelSuperior(500, 250);
     private PanelInferior panelInferior = new PanelInferior(500, 250);
+    private LogicaJuego logicaJuego = new LogicaJuego();
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
 
     public MainFrame() {
@@ -19,21 +22,19 @@ public class MainFrame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.menuInicio.getbJugar().addActionListener(this);
-
         /**
          * Siguientes lineas temporales
          * ELIMINAR AL TERMINAR LA CREACION
          * DE LA SEGUNDA PARTE
          */
 
-        this.menuInicio.setVisible(false);
-        this.panelInferior.setVisible(true);
-        this.panelSuperior.setVisible(true);
+//        this.menuInicio.setVisible(false);
+//        this.panelInferior.setVisible(true);
+//        this.panelSuperior.setVisible(true);
 
         /**
          * END
          */
-
         this.add(this.menuInicio);
         this.add(this.panelSuperior);
         this.add(this.panelInferior);
@@ -71,6 +72,14 @@ public class MainFrame extends JFrame implements ActionListener {
         this.panelInferior = panelInferior;
     }
 
+    public LogicaJuego getLogicaJuego() {
+        return logicaJuego;
+    }
+
+    public void setLogicaJuego(LogicaJuego logicaJuego) {
+        this.logicaJuego = logicaJuego;
+    }
+
     /**
      * Invoked when an action occurs.
      *
@@ -84,13 +93,17 @@ public class MainFrame extends JFrame implements ActionListener {
             this.panelInferior.setVisible(true);
         }
         String dificultad = "";
+        int niveldificultad = 0;
         for (int i = 0; i < this.menuInicio.getbDificultad().length; i++) {
             if (this.menuInicio.getbDificultad()[i].isSelected()) {
                 dificultad = this.menuInicio.getbDificultad()[i].getText();
-                this.panelInferior.setDificultad(this.menuInicio.getbDificultad()[i].getName());
+                niveldificultad = Integer.parseInt(this.menuInicio.getbDificultad()[i].getName());
 
             }
         }
+        this.getLogicaJuego().setNivelDificultad(niveldificultad);
+        this.getLogicaJuego().generarNumero();
+        this.getPanelInferior().setLogicaJuego(this.getLogicaJuego());
         this.setTitle("Ahorcado: "+dificultad);
     }
 }

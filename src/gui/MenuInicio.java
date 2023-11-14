@@ -71,7 +71,6 @@ public class MenuInicio extends JPanel implements ActionListener {
         int tamAltura = 0;
         for (int i = 0; i < this.getbDificultad().length; i++)
             tamAltura += this.getbDificultad()[i].getHeight()+10;
-        System.out.println(tamAltura);
         this.msgDificultad.setSize(150, tamAltura);
         this.msgDificultad.setLocation(10, this.titulo.getHeight()+50);
         this.msgDificultad.setFont(getFont().deriveFont(22.0f));

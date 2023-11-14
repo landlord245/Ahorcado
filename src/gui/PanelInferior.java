@@ -1,11 +1,14 @@
 package gui;
 
+import logica.LogicaJuego;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 
 public class PanelInferior extends JPanel implements ActionListener {
     private Color fontColor = new Color(253, 255, 252);
@@ -15,13 +18,14 @@ public class PanelInferior extends JPanel implements ActionListener {
     private Color acertado = new Color(129, 170, 36);
     private Color colorYellow = new Color(255, 159, 28);
     private JPanel panelLista = new JPanel();
-    private JLabel[] numProbados = new JLabel[5];
-    private JLabel msgInpt = new JLabel("<html>Inserte el numero a adivinar aqua:</html>");
+    private JLabel[] pLabels = new JLabel[7];
+    private JLabel msgInpt = new JLabel("<html>Inserte el numero a adivinar:</html>");
     private JTextField inptNum = new JTextField();
     private JLabel msgHint = new JLabel();
     private JButton bProbar = new JButton("Probar");
+    private LogicaJuego logicaJuego = new LogicaJuego();
     private int ancho, alto;
-    private String dificultad;
+    private int intentos = 0;
     public PanelInferior(int ancho, int alto) {
         this.ancho = ancho;
         this.alto = alto;
@@ -67,14 +71,15 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.msgHint.setLocation(this.ancho/2+20, 10);
         this.msgHint.setBackground(getColorYellow());
         this.msgHint.setForeground(getFontColor());
+        this.msgHint.setHorizontalAlignment(JLabel.CENTER);
         this.msgHint.setOpaque(true);
         this.msgHint.setVisible(false);
-        this.msgHint.setText("<html><p align=\"center\">Este es un texto de prueba, yo soy Gurjant el desarrollador <p><html>");
+//        this.msgHint.setText("<html><p align=\"center\">Este es un texto de prueba, yo soy Gurjant el desarrollador <p><html>");
         return this.msgHint;
     }
     public JLabel crearInptMsg() {
         this.msgInpt.setSize(this.ancho/2, 30);
-        this.msgInpt.setLocation(10, this.getPanelLista().getHeight()+20);
+        this.msgInpt.setLocation(10, this.getPanelLista().getHeight()+5);
         this.msgInpt.setForeground(fontColor);
         return this.msgInpt;
     }
@@ -90,22 +95,75 @@ public class PanelInferior extends JPanel implements ActionListener {
         return this.inptNum;
     }
     public JPanel crearPanelLista() {
-        this.panelLista.setBackground(colorLightPink);
-        this.panelLista.setSize(this.ancho/2, 30);
+        this.panelLista.setBackground(this.getColorLightPink());
+        this.panelLista.setSize(this.ancho/2, 50);
         this.panelLista.setLocation(10, 10);
-        return  this.panelLista;
+        this.panelLista.setLayout(null);
+        crearEstiloListaNumeros();
+        return this.panelLista;
     }
-
+    public void crearEstiloListaNumeros() {
+        int anchura = this.getPanelLista().getWidth();
+        int altura = this.getPanelLista().getHeight();
+        int espaciador = 0;
+        for (int i = 0; i < this.getpLabels().length; i++) {
+            this.getpLabels()[i] = new JLabel();
+            this.getpLabels()[i].setBackground(this.getElementBGColor());
+            this.getpLabels()[i].setForeground(this.getFontColor());
+            this.getpLabels()[i].setSize(30, 40);
+            if (i == 0)
+                this.getpLabels()[i].setLocation(2, altura/2-this.getpLabels()[i].getHeight()/2);
+            else {
+                espaciador += this.getpLabels()[i].getWidth()+5;
+                this.getpLabels()[i].setLocation(espaciador, altura/2-this.getpLabels()[i].getHeight()/2);
+            }
+//            System.out.println(espaciador);
+            this.getpLabels()[i].setFont(this.getFont().deriveFont(22.0f));
+            this.getpLabels()[i].setHorizontalAlignment(JLabel.CENTER);
+            this.getpLabels()[i].setOpaque(true);
+            this.getPanelLista().add(getpLabels()[i]);
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (this.msgHint.isVisible())
-            this.msgHint.setVisible(false);
-        else
-            this.msgHint.setVisible(true);
+        boolean resultadoComprobacion = false;
+        String ayuda = "";
+        this.getMsgHint().setVisible(true);
+        System.out.println(this.getLogicaJuego().getNumeroAleatorio());
+        try {
+            int numero = Integer.parseInt(this.getInptNum().getText());
+            resultadoComprobacion = this.getLogicaJuego().comprobarNumero(numero);
+            if (!resultadoComprobacion){
+                anyadirNumeroLista(numero);
+                ayuda = this.getLogicaJuego().hint(numero);
+                this.getMsgHint().setText("<html><p align=\"center\">"+ayuda+"<p></html>");
+            }else
+                System.out.println("Numero Adivinado: "+numero);
 
-        System.out.println(this.getDificultad());
+        }catch (NumberFormatException ex){
+            this.getMsgHint().setText("<html><p align=\"center\">Solo se permiten numeros, nada mas.<p></html>");
+            try {
+                anyadirNumeroLista(this.getInptNum().getText());
+            }catch (IndexOutOfBoundsException exc) {
+                System.out.println(exc.getMessage());
+            }
+            System.out.println(ex.getMessage());
+        }
+        this.getInptNum().setText("");
     }
-
+    public void anyadirNumeroLista(int numero) throws IndexOutOfBoundsException {
+        this.getpLabels()[this.getIntentos()].setText("<html><p align='center'>"+numero+"</p></html>");
+        intentosIncrementar();
+    }
+    public void anyadirNumeroLista(String caracteres) throws IndexOutOfBoundsException {
+        JLabel label = new JLabel("<html><p align=\"center\">"+caracteres+"</p></html>");
+        this.getpLabels()[this.getIntentos()].setText(label.getText());
+        System.out.println(this.getIntentos());
+        intentosIncrementar();
+    }
+    public void intentosIncrementar(){
+        this.intentos++;
+    }
     public Color getFontColor() {
         return fontColor;
     }
@@ -129,15 +187,6 @@ public class PanelInferior extends JPanel implements ActionListener {
     public void setElementBGColor(Color elementBGColor) {
         this.elementBGColor = elementBGColor;
     }
-
-    public Color getColor4() {
-        return colorLightPink;
-    }
-
-    public void setColor4(Color color4) {
-        this.colorLightPink = color4;
-    }
-
     public Color getAcertado() {
         return acertado;
     }
@@ -152,14 +201,6 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     public void setPanelLista(JPanel panelLista) {
         this.panelLista = panelLista;
-    }
-
-    public JLabel[] getNumProbados() {
-        return numProbados;
-    }
-
-    public void setNumProbados(JLabel[] numProbados) {
-        this.numProbados = numProbados;
     }
 
     public JLabel getMsgInpt() {
@@ -210,14 +251,6 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.alto = alto;
     }
 
-    public String getDificultad() {
-        return dificultad;
-    }
-
-    public void setDificultad(String dificultad) {
-        this.dificultad = dificultad;
-    }
-
     public Color getColorLightPink() {
         return colorLightPink;
     }
@@ -232,5 +265,29 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     public void setColorYellow(Color colorYellow) {
         this.colorYellow = colorYellow;
+    }
+
+    public LogicaJuego getLogicaJuego() {
+        return logicaJuego;
+    }
+
+    public void setLogicaJuego(LogicaJuego logicaJuego) {
+        this.logicaJuego = logicaJuego;
+    }
+
+    public JLabel[] getpLabels() {
+        return pLabels;
+    }
+
+    public void setpLabels(JLabel[] pLabels) {
+        this.pLabels = pLabels;
+    }
+
+    public int getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(int intentos) {
+        this.intentos = intentos;
     }
 }
