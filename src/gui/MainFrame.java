@@ -10,6 +10,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private MenuInicio menuInicio = new MenuInicio(500, 500);
     private PanelSuperior panelSuperior = new PanelSuperior(500, 250);
     private PanelInferior panelInferior = new PanelInferior(500, 250);
+    private VentanaGanadora ventanaGanadora;
     private LogicaJuego logicaJuego = new LogicaJuego();
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
 
@@ -20,8 +21,10 @@ public class MainFrame extends JFrame implements ActionListener {
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
 
         this.menuInicio.getbJugar().addActionListener(this);
+        this.getPanelInferior().getbProbar().addActionListener(this);
         /**
          * Siguientes lineas temporales
          * ELIMINAR AL TERMINAR LA CREACION
@@ -79,7 +82,6 @@ public class MainFrame extends JFrame implements ActionListener {
     public void setLogicaJuego(LogicaJuego logicaJuego) {
         this.logicaJuego = logicaJuego;
     }
-
     /**
      * Invoked when an action occurs.
      *
@@ -87,23 +89,39 @@ public class MainFrame extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (this.menuInicio.getButtonGroup().getSelection().isSelected()){
-            this.menuInicio.setVisible(false);
-            this.panelSuperior.setVisible(true);
-            this.panelInferior.setVisible(true);
-        }
-        String dificultad = "";
-        int niveldificultad = 0;
-        for (int i = 0; i < this.menuInicio.getbDificultad().length; i++) {
-            if (this.menuInicio.getbDificultad()[i].isSelected()) {
-                dificultad = this.menuInicio.getbDificultad()[i].getText();
-                niveldificultad = Integer.parseInt(this.menuInicio.getbDificultad()[i].getName());
+        AbstractButton abstractButton = (AbstractButton) e.getSource();
+        if (abstractButton.getName().equalsIgnoreCase(this.getMenuInicio().getbJugar().getName())){
+            try {
+                if (this.menuInicio.getButtonGroup().getSelection().isSelected()){
+                    this.menuInicio.setVisible(false);
+                    this.panelSuperior.setVisible(true);
+                    this.panelInferior.setVisible(true);
+                }
+            }catch (NullPointerException exception){
+                this.getMenuInicio().getMsgDificultad().setText("<html><hr/><p align=\"center\">Si no selecionas la dificultad, no te dejare ir.</p><hr/></html>");
+                this.getMenuInicio().getMsgDificultad().setVisible(true);
+            }
+            String dificultad = "";
+            int niveldificultad = 0;
+            for (int i = 0; i < this.menuInicio.getbDificultad().length; i++) {
+                if (this.menuInicio.getbDificultad()[i].isSelected()) {
+                    dificultad = this.menuInicio.getbDificultad()[i].getText();
+                    niveldificultad = Integer.parseInt(this.menuInicio.getbDificultad()[i].getName());
+
+                }
+            }
+            this.getLogicaJuego().setNivelDificultad(niveldificultad);
+            this.getLogicaJuego().generarNumero();
+            this.getPanelInferior().setLogicaJuego(this.getLogicaJuego());
+            this.setTitle("Ahorcado: "+dificultad);
+        } else if (abstractButton.getName().equalsIgnoreCase(this.getPanelInferior().getbProbar().getName())) {
+            int fase = this.getPanelInferior().getIntentos();
+            if (fase != -1)
+                this.getPanelSuperior().cambioDeFase(fase);
+            else {
+                this.ventanaGanadora = new VentanaGanadora(500,500);
 
             }
         }
-        this.getLogicaJuego().setNivelDificultad(niveldificultad);
-        this.getLogicaJuego().generarNumero();
-        this.getPanelInferior().setLogicaJuego(this.getLogicaJuego());
-        this.setTitle("Ahorcado: "+dificultad);
     }
 }

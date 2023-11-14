@@ -47,6 +47,7 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.bProbar.setBorder(null);
         this.bProbar.setBackground(elementBGColor);
         this.bProbar.setForeground(fontColor);
+        this.bProbar.setName("Probar");
         this.bProbar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -128,34 +129,39 @@ public class PanelInferior extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         boolean resultadoComprobacion = false;
         String ayuda = "";
+        int numeroRecibido = 0;
+        String caracteresRecibidos = "";
         this.getMsgHint().setVisible(true);
-        System.out.println(this.getLogicaJuego().getNumeroAleatorio());
-        try {
-            int numero = Integer.parseInt(this.getInptNum().getText());
-            resultadoComprobacion = this.getLogicaJuego().comprobarNumero(numero);
-            if (!resultadoComprobacion){
-                anyadirNumeroLista(numero);
-                ayuda = this.getLogicaJuego().hint(numero);
-                this.getMsgHint().setText("<html><p align=\"center\">"+ayuda+"<p></html>");
-            }else
-                System.out.println("Numero Adivinado: "+numero);
-
-        }catch (NumberFormatException ex){
-            this.getMsgHint().setText("<html><p align=\"center\">Solo se permiten numeros, nada mas.<p></html>");
+        if (this.getIntentos() < 7) {
             try {
-                anyadirNumeroLista(this.getInptNum().getText());
-            }catch (IndexOutOfBoundsException exc) {
-                System.out.println(exc.getMessage());
+                numeroRecibido = Integer.parseInt(this.getInptNum().getText());
+                resultadoComprobacion = this.getLogicaJuego().comprobarNumero(numeroRecibido);
+                if (!resultadoComprobacion){
+                    anyadirNumeroLista(numeroRecibido);
+                    ayuda = this.getLogicaJuego().hint(numeroRecibido);
+                    this.getMsgHint().setText("<html><p align=\"center\">"+ayuda+"<p></html>");
+                    System.out.println(getIntentos());
+                }else {
+                    this.getInptNum().setEnabled(false);
+                    this.getbProbar().setEnabled(false);
+                    this.setIntentos(-1);
+                }
+
+            }catch (NumberFormatException ex){
+                this.getMsgHint().setText("<html><p align=\"center\">Solo se permiten numeros, nada mas.<p></html>");
+                caracteresRecibidos = this.getInptNum().getText();
+                anyadirNumeroLista(caracteresRecibidos);
             }
-            System.out.println(ex.getMessage());
+        }else {
+            System.out.println("No mas Intentos");
         }
         this.getInptNum().setText("");
     }
-    public void anyadirNumeroLista(int numero) throws IndexOutOfBoundsException {
+    public void anyadirNumeroLista(int numero) {
         this.getpLabels()[this.getIntentos()].setText("<html><p align='center'>"+numero+"</p></html>");
         intentosIncrementar();
     }
-    public void anyadirNumeroLista(String caracteres) throws IndexOutOfBoundsException {
+    public void anyadirNumeroLista(String caracteres) {
         JLabel label = new JLabel("<html><p align=\"center\">"+caracteres+"</p></html>");
         this.getpLabels()[this.getIntentos()].setText(label.getText());
         System.out.println(this.getIntentos());

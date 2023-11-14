@@ -20,6 +20,7 @@ public class MenuInicio extends JPanel implements ActionListener {
     private JButton bJugar = new JButton("Jugar");
     private JLabel titulo = new JLabel("<html><i><u>AHORCADO</u></i></html>", SwingConstants.CENTER);
     private JLabel msgDificultad = new JLabel();
+    private JLabel carrusel = new JLabel();
 
     public int centrarElemento(Component component){
 
@@ -40,7 +41,16 @@ public class MenuInicio extends JPanel implements ActionListener {
         for (int i = 0; i < this.getbDificultad().length ; i++)
             this.add(getbDificultad()[i]);
         this.add(crearBotonJugar());
+        this.add(crearCarrusel());
         this.bDificultad[1].addActionListener(this);
+    }
+    public JLabel crearCarrusel() {
+        this.carrusel.setVisible(false);
+        this.carrusel.setOpaque(true);
+        this.carrusel.setSize(this.getMsgDificultad().getWidth(), this.getMsgDificultad().getHeight());
+        this.carrusel.setLocation(this.getAncho()-(this.carrusel.getWidth()+20), this.getMsgDificultad().getY());
+        this.carrusel.setBackground(this.getColorYellow());
+        return this.carrusel;
     }
     public JButton crearBotonJugar() {
         int posicionBotonArriba = this.getbDificultad()[3].getY();
@@ -49,6 +59,7 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.bJugar.setLocation(centrarElemento(this.bJugar),posicionBotonArriba+50);
         this.bJugar.setBackground(this.elementBGColor);
         this.bJugar.setForeground(this.fontColor);
+        this.bJugar.setName("Start");
         this.bJugar.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -72,7 +83,7 @@ public class MenuInicio extends JPanel implements ActionListener {
         for (int i = 0; i < this.getbDificultad().length; i++)
             tamAltura += this.getbDificultad()[i].getHeight()+10;
         this.msgDificultad.setSize(150, tamAltura);
-        this.msgDificultad.setLocation(10, this.titulo.getHeight()+50);
+        this.msgDificultad.setLocation(15, this.titulo.getHeight()+50);
         this.msgDificultad.setFont(getFont().deriveFont(22.0f));
         this.msgDificultad.setBackground(this.getColorYellow());
         this.msgDificultad.setForeground(this.getBgColor());
@@ -237,23 +248,35 @@ public class MenuInicio extends JPanel implements ActionListener {
                     case 0:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> No vaya a ser que vayan a herir te los sentimientos. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
+                        anyadirImagen(0);
                         break;
                     case 1:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> No te olvides de los pañales... </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
+                        anyadirImagen(2);
                         break;
                     case 2:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> Y aun se creera valiente. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
+                        anyadirImagen(4);
                         break;
                     case 3:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> Enseñanos de que madera estas echo. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
+                        anyadirImagen(7);
                         break;
                     default:
                         break;
                 }
             }
         }
+    }
+    public void anyadirImagen(int numero) {
+        Image image;
+        ImageIcon imageIcon = new ImageIcon("src\\imagenes\\AhorcadoFase"+numero+".png");
+        image = imageIcon.getImage().getScaledInstance(this.getMsgDificultad().getWidth(), this.getMsgDificultad().getHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+        this.carrusel.setIcon(imageIcon);
+        this.carrusel.setVisible(true);
     }
 }
