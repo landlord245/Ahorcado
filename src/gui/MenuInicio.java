@@ -23,8 +23,9 @@ public class MenuInicio extends JPanel implements ActionListener {
     private JLabel carrusel = new JLabel();
 
     public int centrarElemento(Component component){
-
         return this.ancho/2-component.getWidth()/2;
+    }
+    public MenuInicio() {
     }
 
     public MenuInicio(int ancho, int alto) {

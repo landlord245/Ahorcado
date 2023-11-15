@@ -23,7 +23,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     private JLabel msgHint = new JLabel();
     private JButton bProbar = new JButton("Probar");
     private LogicaJuego logicaJuego = new LogicaJuego();
-    private ventanaFinJuego ventanaFinJuego = new ventanaFinJuego();
+    private VentanaFinJuego ventanaFinJuego = new VentanaFinJuego();
     private int ancho, alto;
     private int intentos = 0;
     public PanelInferior(int ancho, int alto) {
@@ -40,6 +40,8 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.add(crearInputNum());
         this.add(crearHintMsg());
         this.add(crearBotonProbar());
+        lanzarVentanaGanadora();
+        ventanaFinJuego.setVisible(false);
     }
     public JButton crearBotonProbar() {
         this.bProbar.setSize(this.ancho/2-50, 75);
@@ -145,11 +147,7 @@ public class PanelInferior extends JPanel implements ActionListener {
                     this.getMsgHint().setText("<html><p align=\"center\">"+ayuda+"<p></html>");
                     System.out.println(this.getLogicaJuego().getNumeroAleatorio());
                 }else {
-                    this.getInptNum().setEnabled(false);
-                    this.getbProbar().setEnabled(false);
                     this.setIntentos(666);
-                    System.out.println("Intentos (PInferior): "+this.getIntentos());
-                    lanzarVentanaGanadora();
                 }
 
             }catch (NumberFormatException ex){
@@ -163,7 +161,7 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.getInptNum().setText("");
     }
     public void lanzarVentanaGanadora() {
-        this.ventanaFinJuego = new ventanaFinJuego(500,500, "Salvado.");
+        this.ventanaFinJuego = new VentanaFinJuego(500,500, "Salvado.");
         this.ventanaFinJuego.setTitulo("Lo has salvado.");
     }
     public void anyadirNumeroLista(int numero) {
@@ -304,13 +302,18 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     public void setIntentos(int intentos) {
         this.intentos = intentos;
+        if (this.intentos == 666) {
+            this.getInptNum().setEnabled(false);
+            this.getbProbar().setEnabled(false);
+            this.getVentanaFinJuego().setVisible(true);
+        }
     }
 
-    public gui.ventanaFinJuego getVentanaFinJuego() {
+    public VentanaFinJuego getVentanaFinJuego() {
         return ventanaFinJuego;
     }
 
-    public void setVentanaFinJuego(gui.ventanaFinJuego ventanaFinJuego) {
+    public void setVentanaFinJuego(VentanaFinJuego ventanaFinJuego) {
         this.ventanaFinJuego = ventanaFinJuego;
     }
 }
