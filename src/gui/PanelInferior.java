@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 
 public class PanelInferior extends JPanel implements ActionListener {
     private Color fontColor = new Color(253, 255, 252);
@@ -24,6 +23,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     private JLabel msgHint = new JLabel();
     private JButton bProbar = new JButton("Probar");
     private LogicaJuego logicaJuego = new LogicaJuego();
+    private ventanaFinJuego ventanaFinJuego = new ventanaFinJuego();
     private int ancho, alto;
     private int intentos = 0;
     public PanelInferior(int ancho, int alto) {
@@ -48,18 +48,21 @@ public class PanelInferior extends JPanel implements ActionListener {
         this.bProbar.setBackground(elementBGColor);
         this.bProbar.setForeground(fontColor);
         this.bProbar.setName("Probar");
+        this.bProbar.setBorder(null);
         this.bProbar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
                 bProbar.setForeground(elementBGColor);
                 bProbar.setBackground(fontColor);
+                bProbar.setBorder(null);
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 bProbar.setBackground(elementBGColor);
                 bProbar.setForeground(fontColor);
+                bProbar.setBorder(null);
             }
         });
         this.bProbar.addActionListener(this);
@@ -144,7 +147,9 @@ public class PanelInferior extends JPanel implements ActionListener {
                 }else {
                     this.getInptNum().setEnabled(false);
                     this.getbProbar().setEnabled(false);
-                    this.setIntentos(-1);
+                    this.setIntentos(666);
+                    System.out.println("Intentos (PInferior): "+this.getIntentos());
+                    lanzarVentanaGanadora();
                 }
 
             }catch (NumberFormatException ex){
@@ -156,6 +161,10 @@ public class PanelInferior extends JPanel implements ActionListener {
             System.out.println("No mas Intentos");
         }
         this.getInptNum().setText("");
+    }
+    public void lanzarVentanaGanadora() {
+        this.ventanaFinJuego = new ventanaFinJuego(500,500, "Salvado.");
+        this.ventanaFinJuego.setTitulo("Lo has salvado.");
     }
     public void anyadirNumeroLista(int numero) {
         this.getpLabels()[this.getIntentos()].setText("<html><p align='center'>"+numero+"</p></html>");
@@ -295,5 +304,13 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     public void setIntentos(int intentos) {
         this.intentos = intentos;
+    }
+
+    public gui.ventanaFinJuego getVentanaFinJuego() {
+        return ventanaFinJuego;
+    }
+
+    public void setVentanaFinJuego(gui.ventanaFinJuego ventanaFinJuego) {
+        this.ventanaFinJuego = ventanaFinJuego;
     }
 }

@@ -10,7 +10,6 @@ public class MainFrame extends JFrame implements ActionListener {
     private MenuInicio menuInicio = new MenuInicio(500, 500);
     private PanelSuperior panelSuperior = new PanelSuperior(500, 250);
     private PanelInferior panelInferior = new PanelInferior(500, 250);
-    private VentanaGanadora ventanaGanadora;
     private LogicaJuego logicaJuego = new LogicaJuego();
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
 
@@ -25,6 +24,10 @@ public class MainFrame extends JFrame implements ActionListener {
 
         this.menuInicio.getbJugar().addActionListener(this);
         this.getPanelInferior().getbProbar().addActionListener(this);
+        try {
+            this.getPanelInferior().getVentanaFinJuego().getBoton().addActionListener(this);
+
+        }catch (NullPointerException ex){}
         /**
          * Siguientes lineas temporales
          * ELIMINAR AL TERMINAR LA CREACION
@@ -116,17 +119,17 @@ public class MainFrame extends JFrame implements ActionListener {
             this.setTitle("Ahorcado: "+dificultad);
         } else if (abstractButton.getName().equalsIgnoreCase(this.getPanelInferior().getbProbar().getName())) {
             int fase = this.getPanelInferior().getIntentos();
-            System.out.println(fase);
-            if (fase != -1)
+            System.out.println("Intentos (MainFrame): "+fase);
+            if (fase != 666)
                 this.getPanelSuperior().cambioDeFase(fase);
             else {
                 System.out.println("In");
-                this.ventanaGanadora = new VentanaGanadora(500,500);
-                this.ventanaGanadora.setSize(this.getSize());
-                this.ventanaGanadora.setVisible(true);
-                this.ventanaGanadora.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-                this.ventanaGanadora.setBackground(this.menuInicio.getBackground());
             }
+        } else if (abstractButton.getName().equalsIgnoreCase(this.getPanelInferior().getVentanaFinJuego().getBoton().getName())) {
+            this.menuInicio.setVisible(true);
+            this.panelSuperior.setVisible(false);
+            this.panelInferior.setVisible(false);
+
         }
     }
 }

@@ -60,6 +60,7 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.bJugar.setBackground(this.elementBGColor);
         this.bJugar.setForeground(this.fontColor);
         this.bJugar.setName("Start");
+        this.bJugar.setBorder(null);
         this.bJugar.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -67,6 +68,7 @@ public class MenuInicio extends JPanel implements ActionListener {
                 super.mouseEntered(e);
                 bJugar.setForeground(elementBGColor);
                 bJugar.setBackground(fontColor);
+                bJugar.setBorder(null);
             }
 
             @Override
@@ -74,6 +76,7 @@ public class MenuInicio extends JPanel implements ActionListener {
                 super.mouseExited(e);
                 bJugar.setBackground(elementBGColor);
                 bJugar.setForeground(fontColor);
+                bJugar.setBorder(null);
             }
         });
         return this.bJugar;
