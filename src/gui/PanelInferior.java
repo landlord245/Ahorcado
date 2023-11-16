@@ -219,7 +219,6 @@ public class PanelInferior extends JPanel implements ActionListener {
         int numeroRecibido = 0;
         String caracteresRecibidos = "";
         this.getMsgHint().setVisible(true);
-        System.out.println(this.getIntentos());
         if ((this.getIntentos() <= 7)) {
             try {
                 numeroRecibido = Integer.parseInt(this.getInptNum().getText());
@@ -228,7 +227,6 @@ public class PanelInferior extends JPanel implements ActionListener {
                     anyadirNumeroLista(numeroRecibido);
                     ayuda = this.getLogicaJuego().hint(numeroRecibido);
                     this.getMsgHint().setText("<html><p align=\"center\">" + ayuda + "<p></html>");
-                    System.out.println(this.getLogicaJuego().getNumeroAleatorio());
                 } else {
                     anyadirNumeroLista(numeroRecibido);
                     this.setIntentos(666);
