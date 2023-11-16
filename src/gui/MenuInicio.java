@@ -7,11 +7,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Esta clase muestra un menu de incio en la ventana de MainFrame
+ * Muestra un titulo en medio.
+ * 4 niveles de dificultad en el centro debajo del titulo
+ * Jlabler a la izquierda de los nuveles, que mostrara un mensaje de que se debe seleccionar un nivel.
+ * Y tambien mostrara mensaje relacionado con la dificultad.
+ * A la derecha de los niveles se muestra una imagen determinada con el nivel seleccionado.
+ */
 public class MenuInicio extends JPanel implements ActionListener {
     private Color fontColor = new Color(253, 255, 252);
     private Color bgColor = new Color(1, 22, 39);
     private Color elementBGColor = new Color(231, 29, 54);
-    private Color color4 = new Color(250, 112, 112);
     private Color colorYellow = new Color(255, 159, 28);
     private int ancho;
     private int alto;
@@ -22,12 +29,12 @@ public class MenuInicio extends JPanel implements ActionListener {
     private JLabel msgDificultad = new JLabel();
     private JLabel carrusel = new JLabel();
 
-    public int centrarElemento(Component component){
-        return this.ancho/2-component.getWidth()/2;
-    }
-    public MenuInicio() {
-    }
-
+    /**
+     * Construye todo el panel.
+     *
+     * @param ancho
+     * @param alto
+     */
     public MenuInicio(int ancho, int alto) {
         this.ancho = ancho;
         this.alto = alto;
@@ -45,6 +52,24 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.add(crearCarrusel());
         this.bDificultad[1].addActionListener(this);
     }
+
+    /**
+     * Se usa para centrar componentes.
+     * Se divide la anchura de la ventana en 2, con ello ya tendriamos el centro de la ventana
+     * pero sucede que el componente comienza en la mitad. Para solucionar esto divides la anchura
+     * del componente que deseas centrar.
+     *
+     * @param component
+     * @return
+     */
+    public int centrarElemento(Component component){
+        return this.ancho/2-component.getWidth()/2;
+    }
+
+    /**
+     * Crea y establece parametros del JLabel que mostrara imagenes segun se seleccione el nivel de dificultad.
+     * @return
+     */
     public JLabel crearCarrusel() {
         this.carrusel.setVisible(false);
         this.carrusel.setOpaque(true);
@@ -53,6 +78,12 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.carrusel.setBackground(this.getColorYellow());
         return this.carrusel;
     }
+
+    /**
+     * Crea y establece parametros de JButtton que se usara para accionar y empezar a jugar.
+     * Tambien indicamos que al pasar el mause por encima del boton, cambie de color.
+     * @return
+     */
     public JButton crearBotonJugar() {
         int posicionBotonArriba = this.getbDificultad()[3].getY();
         posicionBotonArriba += this.getbDificultad()[3].getHeight();
@@ -82,6 +113,11 @@ public class MenuInicio extends JPanel implements ActionListener {
         });
         return this.bJugar;
     }
+
+    /**
+     * Crear y configurar parametros del JLabel que aparece cuando seleccionamos un nivel de dificultad.
+     * @return
+     */
     public JLabel crearMsgLabel() {
         int tamAltura = 0;
         for (int i = 0; i < this.getbDificultad().length; i++)
@@ -95,12 +131,21 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.msgDificultad.setVisible(false);
         return msgDificultad;
     }
+
+    /**
+     * Array de botones de seleccion, estos botones seran usados para seleccionar el nivel de
+     * dificultad.
+     * Importante mencionar que estos botones reciben un nombre, el mismo que el valor i de la iteracion.
+     * Se añaden tambien al ButtonGroup.
+     *
+     * @return
+     */
     public JRadioButton[] crearBotonesDificultad() {
         int bAncho = this.titulo.getHeight();
         bAncho += this.titulo.getY()+100;
         for (int i = 0; i < this.getbDificultad().length; i++){
             this.bDificultad[i] = new JRadioButton();
-            this.bDificultad[i].setName(String.valueOf(i));
+            this.bDificultad[i].setName(String.valueOf(i)); // Se indica el nombre.
             this.buttonGroup.add(this.bDificultad[i]);
             this.bDificultad[i].setFont(getFont().deriveFont(16.0f));
             this.bDificultad[i].setSize(100, 30);
@@ -132,6 +177,11 @@ public class MenuInicio extends JPanel implements ActionListener {
         this.bDificultad[3].setText("Dificil.");
         return this.bDificultad;
     }
+
+    /**
+     * Se crea el JLabel encargado de mostrar el titulo del juego "AHORCADO"
+     * @return
+     */
     public JLabel crearTituloLabel() {
         this.titulo.setSize(400, 50);
         this.titulo.setLocation(centrarElemento(this.titulo), 0);
@@ -143,60 +193,22 @@ public class MenuInicio extends JPanel implements ActionListener {
         return this.titulo;
     }
 
+    /**
+     * Setter & Getters
+     */
+    public void restablecer() {
+        this.getButtonGroup().clearSelection();
+    }
     public Color getColorYellow() {
         return colorYellow;
-    }
-
-    public void setColorYellow(Color colorYellow) {
-        this.colorYellow = colorYellow;
-    }
-
-    public Color getFontColor() {
-        return fontColor;
-    }
-
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
     }
 
     public Color getBgColor() {
         return bgColor;
     }
 
-    public void setBgColor(Color bgColor) {
-        this.bgColor = bgColor;
-    }
-
-    public Color getElementBGColor() {
-        return elementBGColor;
-    }
-
-    public void setElementBGColor(Color elementBGColor) {
-        this.elementBGColor = elementBGColor;
-    }
-
-    public Color getColor4() {
-        return color4;
-    }
-
-    public void setColor4(Color color4) {
-        this.color4 = color4;
-    }
-
     public int getAncho() {
         return ancho;
-    }
-
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
-    public int getAlto() {
-        return alto;
-    }
-
-    public void setAlto(int alto) {
-        this.alto = alto;
     }
 
     public JRadioButton[] getbDificultad() {
@@ -211,38 +223,26 @@ public class MenuInicio extends JPanel implements ActionListener {
         return buttonGroup;
     }
 
-    public void setButtonGroup(ButtonGroup buttonGroup) {
-        this.buttonGroup = buttonGroup;
-    }
-
     public JButton getbJugar() {
         return bJugar;
-    }
-
-    public void setbJugar(JButton bJugar) {
-        this.bJugar = bJugar;
-    }
-
-    public JLabel getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(JLabel titulo) {
-        this.titulo = titulo;
     }
 
     public JLabel getMsgDificultad() {
         return msgDificultad;
     }
-
-    public void setMsgDificultad(JLabel msgDificultad) {
-        this.msgDificultad = msgDificultad;
-    }
-
     /**
-     * Invoked when an action occurs.
+     * Invocado cuando una accion ocure.
+     *  Contiene un bucle for{
+     *      e ira comprobando(si bDificultad[i] es seleccionado){
+     *              Switch recibe el nombre del boton y es convertido a un Integer
+     *              (No hace falta que recibamos el nombre del boton, pues es el mismo que del iterador).
+     *              Segun el boton selecionado, se mostrara un mensaje o otro.
+     *              Y hace que sea visible el JLabel.
+     *              Y por ultimo llamara al metodo anyadirImagen(Int);
+     *          }
+     *      }
      *
-     * @param e the event to be processed
+     * @param e El evento a procesar.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -252,22 +252,22 @@ public class MenuInicio extends JPanel implements ActionListener {
                     case 0:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> No vaya a ser que vayan a herir te los sentimientos. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
-                        anyadirImagen(0);
+                        anyadirImagen(1);
                         break;
                     case 1:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> No te olvides de los pañales... </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
-                        anyadirImagen(2);
+                        anyadirImagen(3);
                         break;
                     case 2:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> Y aun se creera valiente. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
-                        anyadirImagen(4);
+                        anyadirImagen(5);
                         break;
                     case 3:
                         this.msgDificultad.setText("<html><hr/><p align=\"center\"> Enseñanos de que madera estas echo. </p><hr/></html>");
                         this.msgDificultad.setVisible(true);
-                        anyadirImagen(7);
+                        anyadirImagen(8);
                         break;
                     default:
                         break;
@@ -275,6 +275,12 @@ public class MenuInicio extends JPanel implements ActionListener {
             }
         }
     }
+
+    /**
+     * Segun el numero recibido, mostrara una imagen u otro.
+     * La imagen se muestra a la derecha.
+     * @param numero
+     */
     public void anyadirImagen(int numero) {
         Image image;
         ImageIcon imageIcon = new ImageIcon("src\\imagenes\\AhorcadoFase"+numero+".png");

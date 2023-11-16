@@ -14,6 +14,7 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
     private Color color4 = new Color(255, 159, 28);
     private JPanel panel = new JPanel();
     private JButton botonSalir;
+    private JLabel tituloLabel;
     private JButton botonVolver = new JButton();
     private String titulo;
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
@@ -33,12 +34,11 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         this.setLocation(this.getX()+20, this.getY()+20);
         this.setResizable(false);
         this.setIconImage(this.imageIcon.getImage());
-//        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 
         this.add(crearPanel());
-        this.setVisible(true);
+        this.setVisible(false);
     }
     public JPanel crearPanel() {
         this.panel.setBackground(this.bgColor);
@@ -116,18 +116,18 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         return this.botonVolver;
     }
     public JLabel crearLabel() {
-        JLabel titulo = new JLabel();
-        titulo.setText("<html><hr/><p>"+this.getTitulo()+"</p><hr/><html>");
-        titulo.setHorizontalAlignment(JLabel.CENTER);
-        titulo.setFont(titulo.getFont().deriveFont(64.0f));
-        titulo.setFont(titulo.getFont().deriveFont(Font.ITALIC));
-        titulo.setForeground(this.fontColor);
-        titulo.setBackground(this.color4);
-        titulo.setOpaque(true);
-        titulo.setSize(this.getWidth(), 150);
-        titulo.setLocation(0,10);
+        this.tituloLabel = new JLabel();
+        this.tituloLabel.setText("<html><hr/><p>"+this.getTitulo()+"</p><hr/><html>");
+        this.tituloLabel.setHorizontalAlignment(JLabel.CENTER);
+        this.tituloLabel.setFont(this.tituloLabel.getFont().deriveFont(64.0f));
+        this.tituloLabel.setFont(this.tituloLabel.getFont().deriveFont(Font.ITALIC));
+        this.tituloLabel.setForeground(this.fontColor);
+        this.tituloLabel.setBackground(this.color4);
+        this.tituloLabel.setOpaque(true);
+        this.tituloLabel.setSize(this.getWidth(), 150);
+        this.tituloLabel.setLocation(0,10);
 
-        return titulo;
+        return this.tituloLabel;
     }
 
     /**
@@ -147,24 +147,15 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
     public String getTitulo() {
         return titulo;
     }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public JButton getBotonSalir() {
-        return botonSalir;
-    }
-
-    public boolean isVolver() {
-        return volver;
-    }
-
     public JButton getBotonVolver() {
         return botonVolver;
     }
 
-    public void setBotonVolver(JButton botonVolver) {
-        this.botonVolver = botonVolver;
+    public JLabel getTituloLabel() {
+        return tituloLabel;
+    }
+
+    public void setTituloLabel(JLabel tituloLabel) {
+        this.tituloLabel = tituloLabel;
     }
 }

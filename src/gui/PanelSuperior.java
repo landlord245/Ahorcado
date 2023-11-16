@@ -39,7 +39,7 @@ public class PanelSuperior extends JPanel {
     public LinkedList<ImageIcon> createImagenIconsList() {
         ImageIcon imageIcon = new ImageIcon();
         for (int i = 0; i < 8; i++) {
-            imageIcon = new ImageIcon("src\\imagenes\\AhorcadoFase"+i+".png");
+            imageIcon = new ImageIcon("src\\imagenes\\AhorcadoFase"+(i+1)+".png");
             this.imageIcons.add(imageIcon);
         }
         return this.imageIcons;
