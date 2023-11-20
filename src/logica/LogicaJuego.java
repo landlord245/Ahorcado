@@ -2,15 +2,28 @@ package logica;
 
 import java.util.Random;
 
+/**
+ * Esta clase contiene la generacion del numero aleatorio a adivinar.
+ * Comprueba si el usuario ha hacertado el numero a adivinar.
+ * Y tambien se encarga de devolver una pequeña ayuda al usuario.
+ * El numero se genera en @see MainFrame.
+ *
+ * @see gui.PanelInferior
+ * @see gui.MainFrame
+ */
 public class LogicaJuego {
     private int numeroAleatorio;
     private boolean correcto;
     private int nivelDificultad;
-    public LogicaJuego(int nivelDificultad) {
-        this.nivelDificultad = nivelDificultad;
-        this.correcto = false;
-    }
     public LogicaJuego() {}
+
+    /**
+     * Este metodo se usa para verificar si el numero indicado en el parametro
+     * es el mismo que el del numero generad, devolviendo un buleano.
+     * @see gui.PanelInferior
+     * @param adivinar
+     * @return
+     */
     public boolean comprobarNumero(int adivinar) {
         if (adivinar == this.getNumeroAleatorio())
             this.setCorrecto(true);
@@ -19,6 +32,11 @@ public class LogicaJuego {
 
         return this.isCorrecto();
     }
+
+    /**
+     * Generea un numero aleatorio, segun el nivel de dificultad.
+     * @return
+     */
     public int generarNumero() {
         Random random = new Random();
         switch (this.getNivelDificultad()) {
@@ -29,6 +47,15 @@ public class LogicaJuego {
         }
         return this.getNumeroAleatorio();
     }
+
+    /**
+     * Metodo que devuelve una pequeña ayuda dependiendo de que proximo halla
+     * sido el ultimo numero del usuario.
+     * Eso si, si la dificultad seleccionada es Muy Facil, el metodo devuelve tambien el porcentaje
+     * de cercania, haciendo mas facil.
+     * @param numero
+     * @return
+     */
     public String hint(int numero){
         String hint = "";
         int proximidad = this.getNumeroAleatorio()-numero;
@@ -61,6 +88,11 @@ public class LogicaJuego {
 
         return hint;
     }
+
+    /**
+     * GETTER & SETTERS
+     * @return
+     */
     public int getNumeroAleatorio() {
         return numeroAleatorio;
     }

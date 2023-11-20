@@ -156,7 +156,6 @@ public class PanelInferior extends JPanel implements ActionListener {
      * Estos Jlabels estaran detro del JPanel 'panelList'.
      */
     public void crearEstiloListaNumeros() {
-        int anchura = this.getPanelLista().getWidth();
         int altura = this.getPanelLista().getHeight();
         int espaciador = 0;
         for (int i = 0; i < this.getpLabels().length; i++) {
@@ -173,6 +172,21 @@ public class PanelInferior extends JPanel implements ActionListener {
             this.getpLabels()[i].setFont(this.getFont().deriveFont(22.0f));
             this.getpLabels()[i].setHorizontalAlignment(JLabel.CENTER);
             this.getpLabels()[i].setOpaque(true);
+            Dimension dimension = this.getpLabels()[i].getSize();
+            int iteracion = i;
+            this.getpLabels()[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    getpLabels()[iteracion].setSize(100, getpLabels()[iteracion].getHeight());
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    getpLabels()[iteracion].setSize(dimension);
+                }
+            });
             this.getPanelLista().add(getpLabels()[i]);
         }
     }
@@ -237,6 +251,8 @@ public class PanelInferior extends JPanel implements ActionListener {
                 this.getMsgHint().setText("<html><p align=\"center\">Solo se permiten numeros, nada mas.<p></html>");
                 caracteresRecibidos = this.getInptNum().getText();
                 anyadirNumeroLista(caracteresRecibidos);
+                if (this.getIntentos() == 8)
+                    lanzarVentanaPerdedor();
             }
         } else {
             lanzarVentanaPerdedor();

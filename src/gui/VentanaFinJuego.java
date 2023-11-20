@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * La ventana de fin de juego se lanzara cuando se instancie la clase PanelInferior,
+ * ya que en su constructor hay metodo que lanza esta evntana, por tanto la ventana sera
+ * lanzad mucho antes de que se de el resultado.
+ * @see PanelInferior
+ * @see MainFrame
+ */
 public class VentanaFinJuego extends JFrame implements ActionListener {
     private Color fontColor = new Color(253, 255, 252);
     private Color bgColor = new Color(1, 22, 39);
@@ -20,8 +27,20 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
     private int ancho, alto;
     private boolean volver = false;
+
+    /**
+     * Este constructor esta vacio por que se lanza antes de que se de el
+     * resultado.
+     */
     public VentanaFinJuego(){
     }
+
+    /**
+     * Este constructor es llamado cuando ya sabemos el resultado de la partida.
+     * @param ancho
+     * @param alto
+     * @param titulo
+     */
     public VentanaFinJuego(int ancho, int alto, String titulo) {
         this.ancho = ancho;
         this.titulo = titulo;
@@ -40,6 +59,11 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         this.add(crearPanel());
         this.setVisible(false);
     }
+
+    /**
+     * Crea el JPanel, donde iran todos los componentes de esta ventana.
+     * @return
+     */
     public JPanel crearPanel() {
         this.panel.setBackground(this.bgColor);
         this.panel.setForeground(this.fontColor);
@@ -53,6 +77,17 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         this.botonVolver.addActionListener(this);
         return this.panel;
     }
+
+    /**
+     * Crea el boton de salir, al accionar este boton terminara la partida.
+     * El ActionListener para este boton, se implementa en el metodo crearPanel().
+     * El parametro Posicion, es para indicar en que lado del centro estara, si a la
+     * derecha o a la izquierda.
+     * @param titulo
+     * @param nombre
+     * @param posicion
+     * @return
+     */
     public JButton crearBotonSalir(String titulo, String nombre, int posicion ) {
         this.botonSalir = new JButton();
         this.botonSalir.setText(titulo);
@@ -84,6 +119,18 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         });
         return this.botonSalir;
     }
+
+    /**
+     * Crea el boton de volver, al accionar este boton vuelve al menu de incio.
+     * El ActionListener para este boton, se implementa en el metodo crearPanel().
+     * El parametro Posicion, es para indicar en que lado del centro estara, si a la
+     * derecha o a la izquierda.
+     * @see MainFrame
+     * @param titulo
+     * @param nombre
+     * @param posicion
+     * @return
+     */
     public JButton crearBotonVolver(String titulo, String nombre, int posicion) {
         this.botonVolver = new JButton();
         this.botonVolver.setText(titulo);
@@ -115,6 +162,11 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
         });
         return this.botonVolver;
     }
+
+    /**
+     * JLabel que aparece como titulo, aqui se inserta si ha ganado o ha perdido.
+     * @return
+     */
     public JLabel crearLabel() {
         this.tituloLabel = new JLabel();
         this.tituloLabel.setText("<html><hr/><p>"+this.getTitulo()+"</p><hr/><html>");
@@ -153,9 +205,5 @@ public class VentanaFinJuego extends JFrame implements ActionListener {
 
     public JLabel getTituloLabel() {
         return tituloLabel;
-    }
-
-    public void setTituloLabel(JLabel tituloLabel) {
-        this.tituloLabel = tituloLabel;
     }
 }

@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
 
+/**
+ * El panel superior consiste en mostrar la imagen del ahorcado.
+ */
 public class PanelSuperior extends JPanel {
     private Color fontColor = new Color(253, 255, 252);
     private Color bgColor = new Color(1, 22, 39);
@@ -25,6 +28,11 @@ public class PanelSuperior extends JPanel {
 
         this.add(createLabelImagen());
     }
+
+    /**
+     * Especificamos los atributos del JLabel labelImagen.
+     * @return
+     */
     public JLabel createLabelImagen(){
         Image image;
         ImageIcon imageIcon = this.getImageIcons().get(0);
@@ -36,6 +44,11 @@ public class PanelSuperior extends JPanel {
         this.getLabelImagen().setIcon(imageIcon);
         return this.getLabelImagen();
     }
+
+    /**
+     * Añade las imagenes de las diferentes fases del ahorcado, en el LinkedList de imageIcons.
+     * @return
+     */
     public LinkedList<ImageIcon> createImagenIconsList() {
         ImageIcon imageIcon = new ImageIcon();
         for (int i = 0; i < 8; i++) {
@@ -44,6 +57,15 @@ public class PanelSuperior extends JPanel {
         }
         return this.imageIcons;
     }
+
+    /**
+     * Recibe por parametro la fase en la que estamos, este metodo se
+     * llama en la clase MainFrame por el metodo actionPerformed() donde pasaremos la fase.
+     * En este metodo se itera el LinkedList. Por cada iteracion se incrementa la variable Contador.
+     * Cuando el contador sea igual al de la fase que le pasamos, se añadira la imagen al JLabel labelImagen.
+     * @see MainFrame
+     * @param fase
+     */
     public void cambioDeFase(int fase) {
         Image image;
         int contador = 0;
@@ -56,75 +78,21 @@ public class PanelSuperior extends JPanel {
             contador++;
         }
     }
-    public Color getFontColor() {
-        return fontColor;
-    }
 
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    public Color getBgColor() {
-        return bgColor;
-    }
-
-    public void setBgColor(Color bgColor) {
-        this.bgColor = bgColor;
-    }
-
-    public Color getElementBGColor() {
-        return elementBGColor;
-    }
-
-    public void setElementBGColor(Color elementBGColor) {
-        this.elementBGColor = elementBGColor;
-    }
-
-    public Color getColor4() {
-        return color4;
-    }
-
-    public void setColor4(Color color4) {
-        this.color4 = color4;
-    }
-
+    /**
+     * Getter & Setters
+     */
     public LinkedList<ImageIcon> getImageIcons() {
         return imageIcons;
-    }
-
-    public void setImageIcons(LinkedList<ImageIcon> imageIcons) {
-        this.imageIcons = imageIcons;
     }
 
     public JLabel getLabelImagen() {
         return labelImagen;
     }
-
-    public void setLabelImagen(JLabel labelImagen) {
-        this.labelImagen = labelImagen;
-    }
-
     public int getAncho() {
         return ancho;
     }
-
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
     public int getAlto() {
         return alto;
-    }
-
-    public void setAlto(int alto) {
-        this.alto = alto;
-    }
-
-    public int getFase() {
-        return fase;
-    }
-
-    public void setFase(int fase) {
-        this.fase = fase;
     }
 }

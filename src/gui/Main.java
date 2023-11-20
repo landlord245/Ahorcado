@@ -4,7 +4,7 @@ package gui;
  * Esta clase solo lanza la ventana principal,
  * a partir de aquí comienza el juego.
  *
- * @version 1.9
+ * @version 2
  * JDKs 17
  * @author gurjant
  */
