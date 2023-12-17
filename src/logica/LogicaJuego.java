@@ -15,14 +15,17 @@ public class LogicaJuego {
     private int numeroAleatorio;
     private boolean correcto;
     private int nivelDificultad;
-    public LogicaJuego() {}
+
+    public LogicaJuego() {
+    }
 
     /**
      * Este metodo se usa para verificar si el numero indicado en el parametro
      * es el mismo que el del numero generad, devolviendo un buleano.
-     * @see gui.PanelInferior
+     *
      * @param adivinar
      * @return
+     * @see gui.PanelInferior
      */
     public boolean comprobarNumero(int adivinar) {
         if (adivinar == this.getNumeroAleatorio())
@@ -35,15 +38,16 @@ public class LogicaJuego {
 
     /**
      * Generea un numero aleatorio, segun el nivel de dificultad.
+     *
      * @return
      */
     public int generarNumero() {
         Random random = new Random();
         switch (this.getNivelDificultad()) {
-            case 0 -> this.setNumeroAleatorio(random.nextInt(25+1));
-            case 1 -> this.setNumeroAleatorio(random.nextInt(50+1));
-            case 2 -> this.setNumeroAleatorio(random.nextInt(75+1));
-            case 3 -> this.setNumeroAleatorio(random.nextInt(100+1));
+            case 0 -> this.setNumeroAleatorio(random.nextInt(25 + 1));
+            case 1 -> this.setNumeroAleatorio(random.nextInt(50 + 1));
+            case 2 -> this.setNumeroAleatorio(random.nextInt(75 + 1));
+            case 3 -> this.setNumeroAleatorio(random.nextInt(100 + 1));
         }
         return this.getNumeroAleatorio();
     }
@@ -53,26 +57,27 @@ public class LogicaJuego {
      * sido el ultimo numero del usuario.
      * Eso si, si la dificultad seleccionada es Muy Facil, el metodo devuelve tambien el porcentaje
      * de cercania, haciendo mas facil.
+     *
      * @param numero
      * @return
      */
-    public String hint(int numero){
+    public String hint(int numero) {
         String hint = "";
-        int proximidad = this.getNumeroAleatorio()-numero;
-        proximidad = numero*100/this.getNumeroAleatorio();
-        if (this.getNivelDificultad() == 0){
+        int proximidad = this.getNumeroAleatorio() - numero;
+        proximidad = numero * 100 / this.getNumeroAleatorio();
+        if (this.getNivelDificultad() == 0) {
             if (proximidad < 25)
-                hint = "Esto parece polo norte. \n"+proximidad+"%";
+                hint = "Esto parece polo norte. \n" + proximidad + "%";
             else if (proximidad > 25 && proximidad < 50)
-                hint = "Me estoy congelando. \n"+proximidad+"%";
+                hint = "Me estoy congelando. \n" + proximidad + "%";
             else if (proximidad > 50 && proximidad < 75)
-                hint = "Muy bien, muy bien, empieza a ponerse la cosa calentita... \n"+proximidad+"%";
+                hint = "Muy bien, muy bien, empieza a ponerse la cosa calentita... \n" + proximidad + "%";
             else if (proximidad > 75 && proximidad < 100)
-                hint = "Sopla un calido y agradable aire por esta zona... \n"+proximidad+"%";
+                hint = "Sopla un calido y agradable aire por esta zona... \n" + proximidad + "%";
             else
-                hint = "Apuntas a lo alto, muy a lo alto... \n"+proximidad+"%";
+                hint = "Apuntas a lo alto, muy a lo alto... \n" + proximidad + "%";
 
-        }else {
+        } else {
             if (proximidad < 25)
                 hint = "Esto parece polo norte.";
             else if (proximidad > 25 && proximidad < 50)
@@ -91,6 +96,7 @@ public class LogicaJuego {
 
     /**
      * GETTER & SETTERS
+     *
      * @return
      */
     public int getNumeroAleatorio() {

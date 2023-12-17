@@ -92,6 +92,7 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     /**
      * Se crea JLabel que mostrara un mensaje de ayuda para los jugadores.
+     *
      * @return
      */
     public JLabel crearHintMsg() {
@@ -122,6 +123,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     /**
      * Se crea un JTextField donde el usuario añadira un numero
      * puede ser tambien un caracter.
+     *
      * @return
      */
     public JTextField crearInputNum() {
@@ -139,6 +141,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     /**
      * Se crea un JPanel que contendra la lista de numeros o caracteres introducidos por el usuario.
      * Este metodo llama a otro metodo llamado crearEstilosListaNumeros();
+     *
      * @return
      */
     public JPanel crearPanelLista() {
@@ -197,34 +200,35 @@ public class PanelInferior extends JPanel implements ActionListener {
      * este metodo se encarga de comprobar si el numero ha sido adivinado o no.
      * Primero comprueba el numero de intentos, por defecto 1.
      * Si es menor o igual a 7, pedira al JTextField previamente creado el valor introducido
-     *
-     *                                  [ EXCEPTION ]
+     * <p>
+     * [ EXCEPTION ]
      * Si son caracteres y no numeros lanza una exepcion que nos permitira decirle al usuario que el valor instroducido
      * no es aceptado.
      * Luego se llama a un metodo al que le pasaremos el caracterRecibido.
-     *
+     * <p>
      * En caso de ser un numero, no lanzara un error y seguira el bloque:
      * se llama al metodo de la clase:
+     *
+     * @param e the event to be processed
      * @see LogicaJuego
      * .comprobarNumero este nos devolvera un valor true si el numero que le pasamos es correcto.
-     *
-     *                                  [ COMPROBAR EL NUMERO: FALSE ]
+     * <p>
+     * [ COMPROBAR EL NUMERO: FALSE ]
      * El valor retornado es comprobado en una condicion:
      * Si el valor añadido no es el correcto, el valor sera añadido a la lista de nuemeros probados
      * esto se hara llamando al metodo 'añadirNumeroLista(numero)'.
      * se llamara al metodo hint(numero) de la clase LogicaJuego, que nos retorna una cadena de texto
      * Esta se concatena al mensaje de ayuda que se mostrara al usuario.
-     *
-     *                                  [ COMPROBAR EL NUMERO: TRUE ]
+     * <p>
+     * [ COMPROBAR EL NUMERO: TRUE ]
      * Tambien llamamos al metodo añadirNumeroLista(numero)
      * para que se añada el ultimo numero aun que seal el correcto
      * y hacemos que el valor de Intentos sea 666
-     *
+     * <p>
      * Comprueba la cantidad de intentos que llevamos, si es igual a 8
      * llama al metodo lanzarVentanaPerdedor();
-     *
+     * <p>
      * Y Por ultimo limpia el JTextField.
-     * @param e the event to be processed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -282,6 +286,7 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     /**
      * Este metodo añade un NUMERO a la lista de caracteres probados.
+     *
      * @param numero
      */
     public void anyadirNumeroLista(int numero) {
@@ -291,6 +296,7 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     /**
      * Este metodo añade CARACTER/ES a la lista de caracteres probados.
+     *
      * @param caracteres
      */
     public void anyadirNumeroLista(String caracteres) {
@@ -322,6 +328,7 @@ public class PanelInferior extends JPanel implements ActionListener {
 
     /**
      * Setters && Getters
+     *
      * @return
      */
     public Color getFontColor() {
@@ -355,6 +362,7 @@ public class PanelInferior extends JPanel implements ActionListener {
     public Color getColorYellow() {
         return colorYellow;
     }
+
     public LogicaJuego getLogicaJuego() {
         return logicaJuego;
     }
@@ -379,6 +387,7 @@ public class PanelInferior extends JPanel implements ActionListener {
      * Al llegar a ese numero de intentos, desactiva JTextField y JButton.
      * Y Hace visible la ventana de VentanaFinJuego que habiamos lanzado en el constructor
      * con el metodo lanzarVentanaGanadora().
+     *
      * @param intentos
      */
     public void setIntentos(int intentos) {

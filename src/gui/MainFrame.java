@@ -4,8 +4,11 @@ package gui;
 import logica.LogicaJuego;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Esta clase contiene todos los paneles que iran
@@ -18,6 +21,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private PanelInferior panelInferior = new PanelInferior(500, 250);
     private LogicaJuego logicaJuego = new LogicaJuego();
     private ImageIcon imageIcon = new ImageIcon("src\\imagenes\\ahorcado.jpg");
+    private Dimension dimension = new Dimension(750, 750);
 
     /**
      * Contructor que no recibi nada por parametro, pero construye toda la ventana.
@@ -29,10 +33,12 @@ public class MainFrame extends JFrame implements ActionListener {
         this.setTitle("Ahorcado");
         this.setIconImage(this.imageIcon.getImage());
         this.setLayout(null);
-        this.setSize(500, 500);
+        this.setSize(dimension);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setMinimumSize(dimension);
+        this.setResizable(true);
+        ajustarTamanyo();
 
         this.menuInicio.getbJugar().addActionListener(this);
         this.getPanelInferior().getbProbar().addActionListener(this);
@@ -45,18 +51,49 @@ public class MainFrame extends JFrame implements ActionListener {
     }
 
     /**
+     * Este metodo nos permite que el contenido de nuestra ventana se adapte segun
+     * el tamaño.
+     */
+    public void ajustarTamanyo() {
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                setDimension(getSize());
+                getMenuInicio().restablecerTamanyo(getDimension());
+
+                getPanelInferior().setSize(getDimension());
+                getPanelSuperior().setSize(getDimension());
+            }
+        });
+    }
+
+    /**
      * Getter & Setters
+     *
      * @return
      */
+
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
     public MenuInicio getMenuInicio() {
         return menuInicio;
     }
+
     public PanelSuperior getPanelSuperior() {
         return panelSuperior;
     }
+
     public PanelInferior getPanelInferior() {
         return panelInferior;
     }
+
     public LogicaJuego getLogicaJuego() {
         return logicaJuego;
     }
@@ -64,60 +101,61 @@ public class MainFrame extends JFrame implements ActionListener {
     /**
      * Es invocado cuando ocure un evento(cuando se pulsan los botones mencionados en el constructor).
      * Se instancia un Abstractbutton que contiene la informacion del boton accionado.
-     *
+     * <p>
      * El metodo contiene varias condiciones:
-     *
-     *                                      [ PRIMERA CONDICION ]
+     * <p>
+     * [ PRIMERA CONDICION ]
      * El primer boton aparece en el menu principal, donde el usuario elige el nivel de dificultad.
      * Si el boton es selecionado:
-     *      MenuInicio>bJugar {
-     *          1.- Si alguno de los botones del ButtonGroup a si do seleccionado {
-     *              1.1.- Que el menu inicial (la de dificultades), se vuelva invisible e inaccesible.
-     *              1.2.- Se hace visible el Panel Superior (gui.PanelSuperior), que es extiende de JPanel
-     *              y es una instacia de esta clase.
-     *              1.3.- Se hace visible el Panel Superior (gui.PanelSuperior), que es extiende de JPanel
-     *              y es una instacia de esta clase.
-     *              1.4.- De la clase menu inicial se comprueban atra vez de un bucle for
-     *              se comprueba que boton ha sido seleccionado y de este se extra el texto
-     *              con el metodo .getText.
-     *              1.5.- Tambien se extrae el nombre para luego pasarselo a la clase LogicaJuego con el fin de
-     *              determinar el nivel de dificultad seleccionado.
-     *              1.6.- Una vez pasado la dificultad a la clase LogicaJuego, se llama al metodo .generarNumero()
-     *              de la misma clase para generar el numero aleatorio.
-     *
-     *
-     *          }
-     *          Esto puede lanzar una excepcion debido a que si no esta seleccionada ninguna dificultad,
-     *          ButtonGroup lanza "null", en caso de ser este el caso:
-     *          2.- Se le comunica al usuario atra vez de JLabel que no se ha seleccionado el nivel de dificultad.
-     *      }
-     *                                      [ SEGUNDA CONDICION ]
+     * MenuInicio>bJugar {
+     * 1.- Si alguno de los botones del ButtonGroup a si do seleccionado {
+     * 1.1.- Que el menu inicial (la de dificultades), se vuelva invisible e inaccesible.
+     * 1.2.- Se hace visible el Panel Superior (gui.PanelSuperior), que es extiende de JPanel
+     * y es una instacia de esta clase.
+     * 1.3.- Se hace visible el Panel Superior (gui.PanelSuperior), que es extiende de JPanel
+     * y es una instacia de esta clase.
+     * 1.4.- De la clase menu inicial se comprueban atra vez de un bucle for
+     * se comprueba que boton ha sido seleccionado y de este se extra el texto
+     * con el metodo .getText.
+     * 1.5.- Tambien se extrae el nombre para luego pasarselo a la clase LogicaJuego con el fin de
+     * determinar el nivel de dificultad seleccionado.
+     * 1.6.- Una vez pasado la dificultad a la clase LogicaJuego, se llama al metodo .generarNumero()
+     * de la misma clase para generar el numero aleatorio.
+     * <p>
+     * <p>
+     * }
+     * Esto puede lanzar una excepcion debido a que si no esta seleccionada ninguna dificultad,
+     * ButtonGroup lanza "null", en caso de ser este el caso:
+     * 2.- Se le comunica al usuario atra vez de JLabel que no se ha seleccionado el nivel de dificultad.
+     * }
+     * [ SEGUNDA CONDICION ]
      * Este boton se usa para cuando el usuario desea probar el numero insertado.
      * Si el boton es selecionado:
-     *      PanelInferior>bProbar {
-     *          Se llama al metodo .getIntentos, este tiene valor por defecto 1, y se ira incrementando hasta 7.
-     *          si supera dicha cantidad, termina el juego.
-     *          Los numero recibidos por el metodo indicado son comprobados por una condicion.
-     *          Si los numeros dados son diferentes, se le indicara a la Clase PanelSuperior, sobre el cambio de fase.
-     *          En caso de que sea igual a 666, no se cambiara de fase. Pues bien a sido derrota o victoria.
-     *      }
-     *
-     *                                      [ TERCERA CONDICION ]
+     * PanelInferior>bProbar {
+     * Se llama al metodo .getIntentos, este tiene valor por defecto 1, y se ira incrementando hasta 7.
+     * si supera dicha cantidad, termina el juego.
+     * Los numero recibidos por el metodo indicado son comprobados por una condicion.
+     * Si los numeros dados son diferentes, se le indicara a la Clase PanelSuperior, sobre el cambio de fase.
+     * En caso de que sea igual a 666, no se cambiara de fase. Pues bien a sido derrota o victoria.
+     * }
+     * <p>
+     * [ TERCERA CONDICION ]
      * Este boton se usa cuando el juego a terminado y a aprece una ventana de la clase VentanaFinJuego.
      * Esta clase esta instanciada solo en la clase Panel Inferior.
      * Si el boton es selecionado:
-     *      PanelInferior>VentanaFinJuego>BotonVolver {
-     *          Llama al metodo restablecer();
-     *      }
+     * PanelInferior>VentanaFinJuego>BotonVolver {
+     * Llama al metodo restablecer();
+     * }
+     *
      * @param e Evento procesado.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         AbstractButton abstractButton = (AbstractButton) e.getSource();
         String name = abstractButton.getName();
-        if (name.equalsIgnoreCase(this.getMenuInicio().getbJugar().getName())){
+        if (name.equalsIgnoreCase(this.getMenuInicio().getbJugar().getName())) {
             try {
-                if (this.menuInicio.getButtonGroup().getSelection().isSelected()){
+                if (this.menuInicio.getButtonGroup().getSelection().isSelected()) {
                     this.menuInicio.setVisible(false);
                     this.panelSuperior.setVisible(true);
                     this.panelInferior.setVisible(true);
@@ -133,10 +171,10 @@ public class MainFrame extends JFrame implements ActionListener {
                     this.getLogicaJuego().setNivelDificultad(niveldificultad);
                     this.getLogicaJuego().generarNumero();
                     this.getPanelInferior().setLogicaJuego(this.getLogicaJuego());
-                    this.setTitle("Ahorcado: "+dificultad);
+                    this.setTitle("Ahorcado: " + dificultad);
                 }
 
-            }catch (NullPointerException exception){
+            } catch (NullPointerException exception) {
                 this.getMenuInicio().getMsgDificultad().setText("<html><hr/><p align=\"center\">Si no selecionas la dificultad, no te dejare ir.</p><hr/></html>");
                 this.getMenuInicio().getMsgDificultad().setVisible(true);
             }
